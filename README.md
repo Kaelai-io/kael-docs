@@ -12,7 +12,7 @@
 Kael scores autonomous AI agent wallets on-chain and returns a Known Agent Trust (KAT) Score from 0 to 100. Query the API before your agent transacts with an unknown counterparty. Built for Bittensor subnet operators, x402 protocol developers, and agent infrastructure builders.
 
 ![API Status](https://img.shields.io/badge/API-Live-00c896?style=flat-square)
-![Version](https://img.shields.io/badge/version-v0.1.0-6b7f8a?style=flat-square)
+![Version](https://img.shields.io/badge/version-v0.2.0-6b7f8a?style=flat-square)
 ![License](https://img.shields.io/badge/license-MIT-6b7f8a?style=flat-square)
 
 ---
@@ -22,7 +22,7 @@ Kael scores autonomous AI agent wallets on-chain and returns a Known Agent Trust
 Get a free API key at **[kaelai.io](https://kaelai.io)** — no credit card, instant access.
 
 ```bash
-curl -X POST https://kaelai.io/api/v1/score/ \
+curl -X POST https://kaelai.io/api/v1/score \
   -H "Authorization: Bearer kael_live_YOUR_KEY" \
   -H "Content-Type: application/json" \
   -d '{"wallet_address": "0xYourAgentWalletAddress"}'
@@ -39,6 +39,8 @@ curl -X POST https://kaelai.io/api/v1/score/ \
   "cache_hit": true,
   "chain": "eth",
   "transactions_analysed": 50,
+  "wallet_type": "autonomous_agent",
+  "scope_warning": null,
   "dimension_scores": {
     "behavioral_consistency": 17,
     "transaction_legitimacy": 15,
@@ -49,6 +51,8 @@ curl -X POST https://kaelai.io/api/v1/score/ \
   "reasoning": "Established wallet with 2+ years of consistent on-chain activity. Regular interaction patterns with reputable protocols. Counterparty quality slightly reduced by two unverified contract interactions in Q3. Overall profile is consistent with a legitimate autonomous agent."
 }
 ```
+
+> **Note:** `wallet_type` classifies the wallet as one of: `autonomous_agent`, `likely_exchange`, `smart_contract`, `retail_wallet`, `insufficient_history`, or `unknown`. When the wallet type affects score interpretation, `scope_warning` contains a plain-English explanation.
 
 ### Grade Scale
 
@@ -68,11 +72,12 @@ curl -X POST https://kaelai.io/api/v1/score/ \
 
 | Method | Path | Description |
 |--------|------|-------------|
-| `POST` | `/api/v1/score/` | Score a wallet — returns full KAT Score |
+| `POST` | `/api/v1/score` | Score a wallet — returns full KAT Score |
 | `GET`  | `/api/v1/score/{address}/history` | Full score history for a wallet |
 | `GET`  | `/api/v1/score/{address}/trend` | Trend direction over last N scores |
 | `POST` | `/api/v1/keys/register` | Self-serve API key registration (no auth) |
 | `GET`  | `/api/v1/stats` | Public usage statistics |
+| `GET`  | `/api/v1/chain-stats` | Per-chain scoring statistics |
 
 ---
 
@@ -90,7 +95,18 @@ Get your key instantly at [kaelai.io](https://kaelai.io).
 
 ## Supported Chains
 
-ETH · Base · Polygon · BSC · Arbitrum
+| Chain | `chain` value |
+|---|---|
+| Bitcoin | `btc` |
+| Ethereum | `eth` |
+| Solana | `sol` |
+| Base | `base` |
+| BNB Smart Chain | `bsc` |
+| Polygon | `polygon` |
+| Arbitrum | `arbitrum` |
+| Avalanche | `avax` |
+| Hyperliquid | `hype` |
+| Bittensor | `tao` |
 
 Pass the `chain` field in your request body:
 
@@ -100,6 +116,22 @@ Pass the `chain` field in your request body:
   "chain": "base"
 }
 ```
+
+Default is `eth` if omitted.
+
+### Bittensor / TAO — Coldkey vs Hotkey
+
+On Bittensor, validators operate using two wallet types. **Coldkeys** hold funds and subnet registrations but have limited direct transaction history. **Hotkeys** contain all operational activity — weight setting, miner scoring, and validation extrinsics. For counterparty trust assessment, scoring the hotkey address returns richer behavioural data and higher confidence scores. Both wallet types are supported with `chain: tao`.
+
+---
+
+## Pricing
+
+| Tier | Price | Details |
+|---|---|---|
+| Free | 0 | 100 queries on signup, no credit card required, never expires |
+| Pay-as-you-go | $0.005 / query | Top up and query at will — no subscription required |
+| Subscription tiers | Coming Q2 2026 | Monthly plans with volume discounts and additional features |
 
 ---
 
