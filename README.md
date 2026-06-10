@@ -71,6 +71,16 @@ curl -X POST https://kaelai.io/api/v1/score \
 
 ---
 
+## Reports & Research
+
+Real-world analysis using the KaelAi Shield API.
+
+| Report | Description |
+|---|---|
+| [**2026 DeFi Exploit Wave — Behavioral Wallet Analysis**](https://kaelai.io/KaelAi_Shield_Exploit_Analysis_2026.pdf) | Five confirmed exploit wallets scored via Shield API. Every wallet returned BLOCK from behavioral analysis alone — before any registry lookup. Covers Drift Protocol ($285M), Kelp DAO ($292M), Gravity Bridge ($5.4M), StakeDAO, and Token of Power. [Download PDF →](https://kaelai.io/KaelAi_Shield_Exploit_Analysis_2026.pdf) |
+
+---
+
 ## KaelAi Shield
 
 DeFi protocol security layer. Shield adds threat-optimized scoring weights, behavioral risk flags, exploit registry lookups, and a five-tier recommended action system to the same behavioral engine.
