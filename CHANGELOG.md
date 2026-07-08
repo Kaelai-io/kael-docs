@@ -4,6 +4,51 @@ All notable changes to the KAT Score API are documented here.
 
 ---
 
+## v0.4.0 — Retail Scoring: Production Hardening
+**Released: 2026-07-08**
+
+### Overview
+
+Retail scanner (`mode=retail`) scoring has been calibrated and validated for
+production. This release reduces false positives on legitimate low-activity
+wallets, improves verdict consistency across repeated scoring runs, and
+brings the retail scoring path to full production quality.
+
+---
+
+### What Changed for Users
+
+**Fewer false positives on thin and new wallets**
+
+Legitimate wallets with limited transaction history — new accounts, occasional
+users, recently funded wallets — now receive appropriate REVIEW outcomes rather
+than being incorrectly downgraded due to sparse data. Low scores caused by
+data sparsity are treated as uncertainty, not threat signals. Uncertainty is
+not the same as danger.
+
+**Better calibration for single structural signals**
+
+A wallet flagged for one structural data-gap signal, with no other risk
+indicators present, now lands in REVIEW rather than FLAG. A single ambiguous
+signal without corroborating threat behaviour is not sufficient grounds for
+a FLAG outcome.
+
+**Verified verdict stability**
+
+Retail scoring has been validated for verdict consistency: the same wallet
+scored across multiple independent runs returns a stable action verdict
+(allow / monitor / review / flag / block). LLM sampling variance does not
+produce inconsistent user-facing outcomes.
+
+---
+
+### Scope
+
+All changes are scoped to `mode=retail`. Shield (`mode=shield`) and Agent
+(`mode=agent`) paths are unchanged.
+
+---
+
 ## v0.3.2 — Shield Empty Wallet Handling & DeFi Language Cleanup
 **Released: 2026-05-23 | Updated: 2026-05-26**
 
